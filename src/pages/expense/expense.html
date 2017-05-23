@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-navbar>
+     <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title> Expense</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+
+  <form [formGroup]="expense" (ngSubmit)="expenseForm()">
+    <ion-item no-padding>
+      <ion-label stacked>Name</ion-label>
+      <ion-input type="text" formControlName="name"></ion-input>
+    </ion-item>
+    <ion-item no-padding>
+      <ion-label stacked>Category</ion-label>
+		<ion-select formControlName="category">
+			<ion-option value="category_a">Category A</ion-option>
+			<ion-option value="category_b">Category B</ion-option>
+			<ion-option value="category_c">Category C</ion-option>
+			<ion-option value="category_d">Category D</ion-option>
+		</ion-select>
+    </ion-item>
+    <ion-item no-padding>
+      <ion-label stacked>Cost</ion-label>
+      <ion-input type="number" formControlName="cost"></ion-input>
+    </ion-item>
+   	<ion-item no-padding>
+		<ion-label stacked>Date</ion-label>
+		<ion-datetime displayFormat="MM/DD/YYYY" formControlName="date"></ion-datetime>
+	</ion-item>
+    <button ion-button type="submit" [disabled]="!expense.valid" full>Save</button>
+  </form>
+
+</ion-content>
