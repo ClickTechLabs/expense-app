@@ -1,0 +1,103 @@
+page-add-category {
+	  .list-header{
+    background-color: #eaeaea;
+    border-bottom: none;
+    margin-top: 1em;
+  }
+
+  .table-responsive {
+  min-height: 0.01%;
+  overflow-x: auto;
+  margin-top: 30px;
+}
+
+.table > caption+thead > tr:first-child > td,
+.table > caption+thead > tr:first-child > th,
+.table > colgroup+thead > tr:first-child > td,
+.table > colgroup+thead > tr:first-child > th,
+.table > thead:first-child > tr:first-child > td,
+.table > thead:first-child > tr:first-child > th {
+  border-top: 0;
+}
+
+.table-bordered > tbody > tr > td,
+.table-bordered > tbody > tr > th,
+.table-bordered > tfoot > tr > td,
+.table-bordered > tfoot > tr > th,
+.table-bordered > thead > tr > td,
+.table-bordered > thead > tr > th {
+  border: 1px solid #ddd;
+}
+
+.table-bordered {
+  border: 1px solid #ddd;
+}
+
+.table {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 20px;
+}
+
+.table > tbody > tr > td,
+.table > tbody > tr > th,
+.table > tfoot > tr > td,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > thead > tr > th {
+  padding: 8px;
+  line-height: 1.42857143;
+  vertical-align: top;
+  border-top: 1px solid #ddd;
+}
+
+.outline {
+  border: 1px solid #ddd;
+  margin-bottom: 8px;
+}
+
+.ptteachers {
+  padding: 15px;
+  background: #f4f4f4;
+  border-radius: 2px;
+  padding-bottom: 0;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.ptteachers .table > tbody > tr > td,
+.table > tbody > tr > th,
+.table > tfoot > tr > td,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > thead > tr > th {
+  padding: 5px;
+  line-height: 1.42857143;
+  vertical-align: top;
+  border-top: 1px solid #ddd;
+}
+
+.active {
+  height: 150px;
+  overflow-y: scroll;
+}
+
+table.table.table-striped {
+  font-size: 12px;
+}
+
+.btn-small{
+    font-size: 1rem;
+    height: 1.8em;
+    padding: 6px;
+    margin: 0px;
+}
+
+.btn-small-right {
+  float: center;
+}
+
+.button-small {
+	margin-top: 15px;
+}
+}

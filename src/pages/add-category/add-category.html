@@ -1,0 +1,79 @@
+<ion-header>
+  <ion-navbar>
+     <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title> Categories </ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+
+        <ion-list-header>
+            Add Categories
+        </ion-list-header>
+
+        <ion-row>
+        	<ion-col width-35>
+		        <ion-item padding>
+		            <ion-label stacked>Name</ion-label>
+					<ion-input type="text" placeholder="Enter Name" [(ngModel)]="category_name" name="category_name"></ion-input>
+		        </ion-item>
+        	</ion-col>
+        	<ion-col width-35>
+        		<ion-item padding>
+		            <ion-label stacked>Colors</ion-label>
+					  <ion-select [(ngModel)]="colors">
+					    <ion-option value="#FFFF66">Yellow</ion-option>
+					    <ion-option value="#222">Black</ion-option>
+					    <ion-option value="#228B22">Green</ion-option>
+					    <ion-option value="#FFA500">Orange</ion-option>
+					    <ion-option value="#1E90FF">Blue</ion-option>
+					    <ion-option value="#FF0000">Red</ion-option>
+					    <ion-option value="#fff">White</ion-option>
+					  </ion-select>
+		        </ion-item>
+        	</ion-col>
+        	<ion-col width-30>
+		        <ion-item padding no-lines>
+		        <div text-center> 
+		        	<button ion-button type="submit" small (click)="addCategory()" >Add</button>
+		        	<button ion-button type="submit" small (click)="refresh()" >Add</button>
+		        </div>
+		        </ion-item>
+        	</ion-col>
+        </ion-row>
+
+
+        <div class="table-responsive">
+          <table class="table table-bordered min-table text-left">
+            <thead>
+              <tr>
+                <th width="10%">S.N</th>
+                <th>Categories List</th>
+                <th>Color</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let category of categoryList; let i = index; ">
+                <td scope="row">{{i+1}}</td>
+                <td>{{category.category_name}}</td>
+                <td>{{category.color}}</td>
+                <td>
+                  <button ion-button class="btn-small btn-small-right" text-center (click)="deleteCategory(category.category_name,i)"><ion-icon name="trash"></ion-icon></button>
+                 </td>
+              </tr>
+              </tbody>
+            <tbody *ngIf="categoryList.length == 0">
+              <tr>
+                <td colspan="4">
+                  <p text-center> No Categories <p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+</ion-content>
