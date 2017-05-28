@@ -61,12 +61,13 @@ public database: SQLite;
     }
     else {
     	//error here
-  	        this.database = new SQLite();
+            this.sqlite.create({name: "data.db", location: "default"}).then((db: SQLiteObject) => {
                 db.executeSql('INSERT INTO categories (name, color) VALUES (this.name, this.colors)', {}).then((data) => {
                 	console.log("INSERTED: " + JSON.stringify(data));
                 }, (error) => {
             		console.log("ERROR: " + JSON.stringify(error.err));
         		});
+                });
 
       this.categoryList.push({ category_name: this.category_name, color: this.colors });
       this.category_name = "";
@@ -79,7 +80,7 @@ public database: SQLite;
   	  this.platform.ready().then(() => {
   	        this.database = new SQLite();
             this.database.create({name: "data.db", location: "default"}).then((db: SQLiteObject) => {
-                db.executeSql("SELECT * FROM people", {}).then((data) => {
+                db.executeSql("SELECT * FROM categories", {}).then((data) => {
                 	           if(data.rows.length > 0) {
                 					for(var i = 0; i < data.rows.length; i++) {
                     				this.categoryList.push({ category_name: data.rows.item(i).name, color: data.rows.item(i).color});
