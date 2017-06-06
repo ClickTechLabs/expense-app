@@ -38,8 +38,9 @@
         	<ion-col width-30>
 		        <ion-item padding no-lines>
 		        <div text-center> 
-		        	<button ion-button type="submit" small (click)="addCategory()" >Add</button>
+		        	<button ion-button type="submit" small (click)="addCategory(category_name, colors)" >Add</button>
 		        	<button ion-button type="submit" small (click)="refresh()" >Refresh</button>
+              <button ion-button type="submit" small (click)="delete()" >delete</button>
 		        </div>
 		        </ion-item>
         	</ion-col>
