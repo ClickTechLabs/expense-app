@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
+import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 
 
 @IonicPage()
@@ -11,8 +12,26 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 export class Expense implements OnInit {
 
 	private expense: FormGroup;
+  categoryList: any = [];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, public platform: Platform, private sqlite: SQLite) {
+          this.platform.ready().then(() => {
+            this.sqlite.create({name: "data.db", location: "default"}).then((db: SQLiteObject) => {
+                db.executeSql("SELECT * FROM categories", []).then((data) => {
+                  console.log(data);
+                             if(data.rows.length > 0) {
+                          for(var i = 0; i < data.rows.length; i++) {
+                            this.categoryList.push({ category_name: data.rows.item(i).name, color: data.rows.item(i).color, id: data.rows.item(i).id });
+                      }
+                      console.log(this.categoryList);
+                  }
+                }, (error) => {
+                console.log("ERROR: " + JSON.stringify(error));
+            });
+            }, (error) => {
+                console.log("ERROR: ", error);
+            });
+        });
   }
 
 

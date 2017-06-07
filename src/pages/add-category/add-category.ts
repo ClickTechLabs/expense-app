@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform, AlertController } from 'ionic-angular';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 
 @IonicPage()
@@ -15,20 +15,8 @@ public database: SQLite;
   categoryList: any = [];
   people: any = [];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public platform: Platform, private sqlite: SQLite) {
-  	this.platform.ready().then(() => {
-	  		this.sqlite.create({ name: 'data.db', location: 'default' }).then((db: SQLiteObject) => {
-
-					    db.executeSql('CREATE TABLE IF NOT EXISTS categories(id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(32), color VARCHAR(32))', {}).then((data) => {
-                 console.log('Hello');
-					    	console.log("TABLE CREATED: ", data);
-					    }, (error) => {
-						    console.error("Unable to execute sql", error);
-						})
-				}, (error) => {
-					console.error("Unable to open database", error);
-				});
-  		});
+  constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, public platform: Platform, private sqlite: SQLite) {
+    this.refresh();
   }
 
   ionViewDidLoad() {
@@ -55,34 +43,53 @@ public database: SQLite;
       //this.cmn.alert('Warning', 'Enter pool name');
     }
     else {
-      console.log(this.category_name, this.colors);
+            let category_name =  this.category_name;
+            let color =  this.colors;
             this.sqlite.create({name: "data.db", location: "default"}).then((db: SQLiteObject) => {
-              console.log('Zille');
-                db.executeSql("INSERT INTO categories (name, color) VALUES (" + this.category_name + ',' + this.colors + ")", []).then((data) => {
-                  console.log('data');
+              console.log('Zille' + this.category_name, this.colors);
+                db.executeSql("INSERT INTO categories (name, color) VALUES (?, ?)", [category_name,color]).then((data) => {
+                  console.log(data);
                 	console.log("INSERTED: " + JSON.stringify(data));
                 }, (error) => {
             		console.log("ERROR: " + JSON.stringify(error));
         		});
                 });
+            this.category_name = "";
+            this.colors = "";
 
-      this.categoryList.push({ category_name: this.category_name, color: this.colors });
-      this.category_name = "";
-      this.colors = "";
-      console.log(this.categoryList);
+            this.refresh();
     }
   }
 
   refresh(){
+
       this.platform.ready().then(() => {
             this.sqlite.create({name: "data.db", location: "default"}).then((db: SQLiteObject) => {
                 db.executeSql("SELECT * FROM categories", []).then((data) => {
                   console.log(data);
+                  this.categoryList = [];
                              if(data.rows.length > 0) {
                           for(var i = 0; i < data.rows.length; i++) {
-                            this.categoryList.push({ category_name: data.rows.item(i).name, color: data.rows.item(i).color});
+                            this.categoryList.push({ category_name: data.rows.item(i).name, color: data.rows.item(i).color, id: data.rows.item(i).id });
                       }
+                      console.log(this.categoryList);
                   }
+                }, (error) => {
+                console.log("ERROR: " + JSON.stringify(error));
+            });
+            }, (error) => {
+                console.log("ERROR: ", error);
+            });
+        });
+    }
+
+  deleteCategory(id){
+    console.log(id);
+      this.platform.ready().then(() => {
+            this.sqlite.create({name: "data.db", location: "default"}).then((db: SQLiteObject) => {
+                db.executeSql("DELETE FROM categories where id = (?)", [id]).then((data) => {
+                  console.log(data);
+                   this.refresh();
                 }, (error) => {
                 console.log("ERROR: " + JSON.stringify(error));
             });
@@ -92,27 +99,68 @@ public database: SQLite;
         });
   }
 
-  delete(){
-  	  this.platform.ready().then(() => {
+
+    editCategory($id, $name) {
+      console.log($id);
+    let prompt = this.alertCtrl.create({
+      title: 'Edit Category Name',
+      message: "Enter new name",
+      inputs: [
+        {
+          name: 'name',
+          value: $name,
+          placeholder: 'Title'
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: data => {
+          }
+        },
+        {
+          text: 'Save',
+          handler: data => {
+            this.save($id, data.name);
+            console.log($id);
+          }
+        }
+      ]
+    });
+    prompt.present();
+  }
+
+    save(id, categoryName) {
+      console.log(id, categoryName);
+    if (categoryName == "") {
+      //this.cmn.alert('Warning', 'Enter pool name');
+    }
+    else {
+          console.log(id , categoryName);
+      this.platform.ready().then(() => {
             this.sqlite.create({name: "data.db", location: "default"}).then((db: SQLiteObject) => {
-                db.executeSql("DELETE FROM categories", []).then((data) => {
+
+              console.log('zille');
+                db.executeSql("UPDATE categories SET name = (?) where id = (?)", [categoryName, id]).then((data) => {
                   console.log(data);
+                   this.refresh();
                 }, (error) => {
-            		console.log("ERROR: " + JSON.stringify(error));
-        		});
+                console.log("ERROR: " + JSON.stringify(error));
+            });
             }, (error) => {
                 console.log("ERROR: ", error);
             });
         });
+    }
   }
 
-    deleteCategory(obj, i) {
+/*    deleteCategory(obj, i) {
     console.log(obj);
     let index = this.categoryList.findIndex(x => x.category_name == obj);  //index of object
     console.log(index, i);
     if (index == i) {
       this.categoryList.splice(index, 1);
     }
-  }
+  }*/
 
 }

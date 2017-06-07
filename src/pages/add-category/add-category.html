@@ -39,8 +39,6 @@
 		        <ion-item padding no-lines>
 		        <div text-center> 
 		        	<button ion-button type="submit" small (click)="addCategory(category_name, colors)" >Add</button>
-		        	<button ion-button type="submit" small (click)="refresh()" >Refresh</button>
-              <button ion-button type="submit" small (click)="delete()" >delete</button>
 		        </div>
 		        </ion-item>
         	</ion-col>
@@ -58,12 +56,18 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let category of categoryList; let i = index; ">
+              <tr *ngFor="let category of categoryList; let i = index;" text-center>
                 <td scope="row">{{i+1}}</td>
                 <td>{{category.category_name}}</td>
-                <td>{{category.color}}</td>
                 <td>
-                  <button ion-button class="btn-small btn-small-right" text-center (click)="deleteCategory(category.category_name,i)"><ion-icon name="trash"></ion-icon></button>
+                  <div [style.background]="category.color" class="colors">
+                    <!-- {{category.color}} -->
+                  </div>
+                </td>
+                <td>
+                  <button ion-button class="btn-small btn-small-right" text-center (click)="deleteCategory(category.id)"><ion-icon name="trash"></ion-icon></button>
+                  <button ion-button class="btn-small btn-small-right" text-center (click)="editCategory(category.id, category.category_name)"><ion-icon name="md-create"></ion-icon></button>
+                  <!-- <button ion-button class="btn-small btn-small-right" text-center (click)="deleteCategory(category.category_name,i)"><ion-icon name="trash"></ion-icon></button> -->
                  </td>
               </tr>
               </tbody>

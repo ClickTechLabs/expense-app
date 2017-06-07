@@ -18,10 +18,7 @@
     <ion-item no-padding>
       <ion-label stacked>Category</ion-label>
 		<ion-select formControlName="category">
-			<ion-option value="category_a">Category A</ion-option>
-			<ion-option value="category_b">Category B</ion-option>
-			<ion-option value="category_c">Category C</ion-option>
-			<ion-option value="category_d">Category D</ion-option>
+      <ion-option *ngFor="let category of categoryList" value="{{category.category_name}}">{{category.category_name}}</ion-option>
 		</ion-select>
     </ion-item>
     <ion-item no-padding>

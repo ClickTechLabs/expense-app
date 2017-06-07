@@ -2,10 +2,12 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 
 import { Expense } from '../pages/expense/expense';
 import { Chart } from '../pages/chart/chart';
 import { AddCategory } from '../pages/add-category/add-category';
+import { HomePage } from '../pages/home/home';
 
 @Component({
   templateUrl: 'app.html'
@@ -17,11 +19,25 @@ export class MyApp {
 
   pages: Array<{title: string, component: any}>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private sqlite: SQLite) {
+        this.platform.ready().then(() => {
+        this.sqlite.create({ name: 'data.db', location: 'default' }).then((db: SQLiteObject) => {
+
+              db.executeSql('CREATE TABLE IF NOT EXISTS categories(id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(32), color VARCHAR(32))', {}).then((data) => {
+                 console.log('Hello');
+                console.log("TABLE CREATED: ", data);
+              }, (error) => {
+                console.error("Unable to execute sql", error);
+            })
+        }, (error) => {
+          console.error("Unable to open database", error);
+        });
+      });
     this.initializeApp();
 
     // used for an example of ngFor and navigation
     this.pages = [
+      { title: 'Home', component: HomePage },
       { title: 'Expense', component: Expense },
       { title: 'Categories', component: AddCategory },
       { title: 'Chart', component: Chart }
