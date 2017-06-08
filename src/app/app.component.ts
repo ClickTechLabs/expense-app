@@ -23,8 +23,18 @@ export class MyApp {
         this.platform.ready().then(() => {
         this.sqlite.create({ name: 'data.db', location: 'default' }).then((db: SQLiteObject) => {
 
+//Categories table created
               db.executeSql('CREATE TABLE IF NOT EXISTS categories(id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(32), color VARCHAR(32))', {}).then((data) => {
-                 console.log('Hello');
+                 console.log('Categories Table');
+                console.log("TABLE CREATED: ", data);
+              }, (error) => {
+                console.error("Unable to execute sql", error);
+            })
+
+
+//Expense table created
+              db.executeSql('CREATE TABLE IF NOT EXISTS expense(id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(32), category VARCHAR(32), cost INT(15), date VARCHAR(32))', {}).then((data) => {
+                 console.log('Expense Table');
                 console.log("TABLE CREATED: ", data);
               }, (error) => {
                 console.error("Unable to execute sql", error);

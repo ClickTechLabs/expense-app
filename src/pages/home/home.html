@@ -1,17 +1,22 @@
 <ion-header>
-    <ion-navbar color="primary">
+    <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
         <ion-title>{{viewTitle}}</ion-title>
         <ion-buttons end>
-            <button ion-button [disabled]="isToday" (click)="today()">Today</button>
+        <button ion-button [disabled]="isToday" (click)="today()">Today</button>
+<!--             <button ion-button [disabled]="isToday" (click)="today()">Today</button>
             <button ion-button (click)="changeMode('month')">M</button>
             <button ion-button (click)="changeMode('week')">W</button>
             <button ion-button (click)="changeMode('day')">D</button>
-            <button ion-button (click)="loadEvents()">Load Events</button>
+            <button ion-button (click)="loadEvents()">Load Events</button> -->
         </ion-buttons>
     </ion-navbar>
 </ion-header>
  
-<ion-content class="has-header">
+<ion-content class="has-header" padding>
+<div>
     <calendar [eventSource]="eventSource"
               [calendarMode]="calendar.mode"
               [currentDate]="calendar.currentDate"
@@ -21,4 +26,76 @@
               (onTimeSelected)="onTimeSelected($event)"
               step="30">
     </calendar>
+    </div>
+
+
+<!--         <div class="table-responsive" *ngIf="loaded">
+          <table class="table table-bordered min-table text-left">
+            <thead>
+              <tr>
+                <th width="10%">S.N</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Cost</th>
+                <th>Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let expense of expenseList; let i = index;" text-center>
+                <td scope="row">{{i+1}}</td>
+                <td>{{expense.name}}</td>
+                <td>{{expense.category}}</td>
+                <td>{{expense.cost}}</td>
+                <td>{{expense.date}}</td>
+                <td>
+                  <button ion-button class="btn-small btn-small-right" text-center (click)="deleteExpense(expense.id)"><ion-icon name="trash"></ion-icon></button>
+                  <button ion-button class="btn-small btn-small-right" text-center (click)="editExpense(expense.id, expense.name, expense.category, expense.cost, expense.date)"><ion-icon name="md-create"></ion-icon></button>
+                 </td>
+              </tr>
+              </tbody>
+            <tbody *ngIf="expenseList.length == 0">
+              <tr>
+                <td colspan="6">
+                  <p text-center> No Expense <p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div> -->
+
+    <ion-item no-lines  *ngIf="expenseList.length == 0">
+      <ion-label class="no-expense" text-center>No Expense</ion-label>
+    </ion-item>
+
+<div class="wrapper" *ngIf="expenseList.length > 0">
+
+      <ion-row class="head" text-center>
+        <ion-col col-4><strong>Name</strong></ion-col>
+        <ion-col col-4><strong>Category</strong></ion-col>
+        <ion-col col-4><strong>Cost</strong></ion-col>
+      </ion-row>
+<ion-list *ngFor="let expense of expenseList; let i = index; ">
+  <ion-item-sliding #item>
+    <ion-item>
+      <ion-row text-center>
+        <ion-col class="data" col-4>{{expense.name}}</ion-col>
+        <ion-col class="data" col-4>{{expense.category}}</ion-col>
+        <ion-col col-4>$ {{expense.cost}}</ion-col>
+      </ion-row>
+    </ion-item>
+
+    <ion-item-options side="right">
+        <button ion-button (click)="editExpense(expense.id, expense.name, expense.category, expense.cost, expense.date)">
+            <ion-icon name="md-create"></ion-icon>
+            Edit
+      </button>
+        <button ion-button color="danger" (click)="deleteExpense(expense.id, expense.name, expense.category, expense.cost, i)">
+            <ion-icon name="trash"></ion-icon>
+            Delete
+      </button>
+    </ion-item-options>
+  </ion-item-sliding>
+</ion-list>
+</div>
 </ion-content>

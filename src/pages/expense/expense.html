@@ -27,7 +27,8 @@
     </ion-item>
    	<ion-item no-padding>
 		<ion-label stacked>Date</ion-label>
-		<ion-datetime displayFormat="MM/DD/YYYY" formControlName="date"></ion-datetime>
+    <ion-input type="date" formControlName="date"></ion-input>
+		<!-- <ion-datetime displayFormat="MM/DD/YYYY" formControlName="date"></ion-datetime> -->
 	</ion-item>
     <button ion-button type="submit" [disabled]="!expense.valid" full>Save</button>
   </form>
